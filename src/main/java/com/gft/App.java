@@ -92,22 +92,27 @@ public class App {
                 String[] dishesTrimmed = Arrays.stream(dishes).map(String::trim).toArray(String[]::new);
                 String[] onlyDishes = getOnlyDishes(dishesTrimmed);
 
+                boolean hasError = false;
                 for (String dish : onlyDishes) {
                     boolean hasOptionSelected = Arrays.stream(DishType.values()).anyMatch(dishType -> dish.equals(String.valueOf(dishType.getOrder())));
                     if (line.startsWith("morning") && !hasOptionSelected) {
                         System.out.println(line);
                         System.out.println("Dish types for morning are:\n 1 - eggs\n 2 - toast\n 3 - coffee");
                         System.err.println(String.format("Wrong dish type #%s detected!", dish));
-                        return;
+                        hasError = true;
                     } else if (line.startsWith("night") && !hasOptionSelected) {
                         System.out.println(line);
                         System.out.println("Dish types for night are:\n 1 - steak\n 2 - potato\n 3 - wine\n 4 - cake");
                         System.err.println(String.format("Wrong dish type #%s detected!", dish));
-                        return;
+                        hasError = true;
+
                     }
                 }
 
-                printDishes(dishesTrimmed);
+                if(!hasError) {
+                    printDishes(dishesTrimmed);
+                }
+
             }
         }
     }
